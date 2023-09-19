@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import com.winter.app.board.BoardDAO;
 
-@Repository
+//@Repository
 @Mapper
 public interface NoticeDAO extends BoardDAO{
 

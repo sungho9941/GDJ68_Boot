@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.winter.app.board.BoardVO;
+import com.winter.app.commons.Pager;
 
 @SpringBootTest
 class NoticeDAOTest {
@@ -16,23 +17,43 @@ class NoticeDAOTest {
 	@Autowired
 	private NoticeDAO noticeDAO;
 	
+	//@Test
 	void addTest() throws Exception{
+		
+		for(int i=100; i<150; i++) {
 		BoardVO boardVO = new BoardVO();
-		boardVO.setBoardTitle("title");
-		boardVO.setBoardWriter("writer");
-		boardVO.setBoardContents("contents");
-		int result = noticeDAO.add(boardVO);
+			boardVO.setBoardTitle("title"+i);
+			boardVO.setBoardWriter("writer"+i);
+			boardVO.setBoardContents("contents"+1);
+			int result = noticeDAO.add(boardVO);
+			if(i%10==0) {
+				Thread.sleep(500);				
+			}
+		}
 		
-		assertEquals(1, result);
-		
-		
+		System.out.println("finish");
 	}
 	
-	//@Test
+	@Test
+	void getCountTest() throws Exception{
+		Pager pager = new Pager();
+		pager.setKind("1");
+		pager.setSearch("20");
+		Long count = noticeDAO.getCount(pager);
+		assertEquals(2L, count);
+	}
+	
+	@Test
 	void getListTest() throws Exception{
-		List<BoardVO> ar = noticeDAO.getList();
+		Pager pager = new Pager();
+		pager.setStartRow(0L);
+		pager.setLastRow(15L);
+		pager.setKind("1");
+		pager.setSearch("20");
 		
-		assertNotEquals(0, ar.size());
+		List<BoardVO> ar = noticeDAO.getList(pager);
+		
+		assertEquals(2, ar.size());
 	}
 
 }
