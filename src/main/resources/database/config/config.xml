@@ -6,7 +6,10 @@
 	<configuration>
 		<typeAliases>
 			<typeAlias type="com.winter.app.board.BoardVO" alias="BoardVO"></typeAlias>
+			<typeAlias type="com.winter.app.board.FileVO" alias="FileVO"></typeAlias>
 			<typeAlias type="com.winter.app.board.notice.NoticeVO" alias="NoticeVO"></typeAlias>
+			<typeAlias type="com.winter.app.board.notice.NoticeFileVO" alias="NoticeFileVO"></typeAlias>
+			
 			<typeAlias type="com.winter.app.commons.Pager" alias="Pager"></typeAlias>
 			
 		</typeAliases>

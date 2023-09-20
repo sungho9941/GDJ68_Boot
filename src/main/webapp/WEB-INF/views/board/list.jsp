@@ -39,7 +39,7 @@
 											<c:forEach items="${list}" var="vo">
 												<tr>
 													<td>${vo.boardNo}</td>
-													<td>${vo.boardTitle}</td>
+													<td><a href="./detail?boardNo=${vo.boardNo}">${vo.boardTitle}</a></td>
 													<td>${vo.boardWriter}</td>
 													<td>${vo.boardDate}</td>
 													<td>${vo.boardHit}</td>
@@ -49,8 +49,14 @@
 										</tbody>
 									</table>
 								</div>
-							</div>
-						</div>							
+								<a href="./add" class="btn btn-primary btn-icon-split">
+                                        <span class="icon text-white-50">
+                                            <i class="fas fa-flag"></i>
+                                        </span>
+                                        <span class="text">글작성</span>
+                                    </a>
+							</div>			
+						</div>								
 					</div>
 				</div>
 		
