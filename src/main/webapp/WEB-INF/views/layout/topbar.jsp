@@ -27,13 +27,13 @@
 						<ul class="navbar-nav ml-auto">
 							<li class="nav-item">
 								<a class="nav-link" href="/member/join" id="join" role="button" aria-expanded="false">
-                                <i class="fas fa-search fa-fw"></i>
+                               <i class='far fa-id-badge' style='font-size:24px'></i>
                             	</a>
 							</li>
 							
 							<li class="nav-item">
 								<a class="nav-link" href="/member/login" id="login" role="button" aria-expanded="false">
-                                <i class="fas fa-search fa-fw"></i>
+                                <i class='fas fa-user-lock' style='font-size:24px'></i>
                             	</a>
 							</li>
 						</ul>
@@ -203,9 +203,9 @@
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
                                 </a>
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="/member/update">
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Settings
+                                    정보수정
                                 </a>
                                 <a class="dropdown-item" href="#">
                                     <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
