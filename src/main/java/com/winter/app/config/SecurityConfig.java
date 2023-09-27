@@ -10,17 +10,18 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import com.winter.app.member.MemberService;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 	
 	@Autowired
 	private SecuritySuccessHandler handler;
+	@Autowired
+	private MemberService memberService;
 	
-	@Bean //평문 비문 관련 메소드
-	PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+
 	
 	
 	@Bean
@@ -40,8 +41,8 @@ public class SecurityConfig {
 		httpSecurity
 			.cors()
 			.and()
-//			.csrf()
-//			.disable()
+			.csrf()
+			.disable()
 			.authorizeHttpRequests()
 				.antMatchers("/notice/add").hasRole("ADMIN")//ROLE_ADMIN에서 ROLE_제외
 				.antMatchers("/manager/*").hasAnyRole("ADMIN", "MANAGER")
@@ -59,12 +60,19 @@ public class SecurityConfig {
 				.and()
 			.logout()
 				.logoutUrl("/member/logout")
-//				.logoutSuccessUrl("/")
+				//.logoutSuccessUrl("/")
 				.addLogoutHandler(getLogoutAdd())
 				.logoutSuccessHandler(getLogoutHandler())
 				.invalidateHttpSession(true)
 				.deleteCookies("JSESSIONID")
 				.and()
+			.rememberMe()
+				.tokenValiditySeconds(60)
+				.key("rememberKey")
+				.userDetailsService(memberService)
+				.authenticationSuccessHandler(handler)
+				.and()
+			
 			.sessionManagement()
 			
 			;
