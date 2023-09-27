@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 @Getter
 public class MemberInfoVO {
-
+	
 	@NotBlank
 	private String name;
 	@Email
@@ -20,4 +20,5 @@ public class MemberInfoVO {
 	@Past
 	private Date birth;
 	private Date joinDate;
+
 }

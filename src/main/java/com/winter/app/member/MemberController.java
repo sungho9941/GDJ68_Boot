@@ -1,12 +1,14 @@
 package com.winter.app.member;
 
-import java.lang.reflect.Field;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -26,67 +28,83 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class MemberController {
 	
+	//service
 	@Autowired
 	private MemberService memberService;
 	
-	@GetMapping("update")
-	public void setUpdate(HttpSession session, Model model) throws Exception{
-		MemberVO memberVO = (MemberVO)session.getAttribute("member");
-		memberVO = memberService.getLogin(memberVO);
-		model.addAttribute("memberVO", memberVO);
-	}
-	
-	@PostMapping("update")
-	public void setUpdate(@Valid MemberVO memberVO, BindingResult bindingResult) throws Exception{
+	@GetMapping("info")
+	public void getInfo() throws Exception{
 		
 	}
 	
+	@GetMapping("update")
+	public void setUpdate(HttpSession session, Model model)throws Exception{
+		MemberVO memberVO = (MemberVO)session.getAttribute("member");
+		//memberVO = memberService.getLogin(memberVO);
+		
+		MemberInfoVO memberInfoVO = new MemberInfoVO();
+		memberInfoVO.setName(memberVO.getName());
+		memberInfoVO.setBirth(memberVO.getBirth());
+		memberInfoVO.setEmail(memberVO.getEmail());
+		
+		
+		
+		model.addAttribute("memberInfoVO", memberInfoVO);
+	}
+	
+	@PostMapping("update")
+	public void setUpdate(@Valid MemberInfoVO memberInfoVO, BindingResult bindingResult)throws Exception{
+		
+	
+	}
+	
 	@GetMapping("logout")
-	public String getLogout(HttpSession session) throws Exception{
+	public String getLogout(HttpSession session) throws Exception {
 		session.invalidate();
 		
 		return "redirect:../";
 	}
 	
 	@GetMapping("login")
-	public void getLogin(@ModelAttribute MemberVO memberVO) throws Exception{
+	public String getLogin(@ModelAttribute MemberVO memberVO)throws Exception{
+		SecurityContext context = SecurityContextHolder.getContext();
 		
-	}
-	
-	@PostMapping("login")
-	public String getLogin2(MemberVO memberVO, HttpSession session) throws Exception{
-		memberVO = memberService.getLogin(memberVO);
-		if(memberVO != null) {
-			session.setAttribute("member", memberVO);
-			return "redirect:../";
+		String check = context.getAuthentication().getPrincipal().toString();
+		log.info("===== Context : {} =====", context.getAuthentication());
+		if(!check.equals("anonymousUser")) {
+			return "redirect:/";
 		}
 		
-		return "redirect:./login";
+		return "member/login";
 	}
+	
 
 //	@GetMapping("join")
-//	public void setJoin(Model model) throws Exception{
+//	public void setJoin(Model model)throws Exception{
 //		MemberVO memberVO = new MemberVO();
 //		model.addAttribute("memberVO", memberVO);
 //	}
-	
 	@GetMapping("join")
-	public void setJoin(@ModelAttribute MemberVO memberVO) throws Exception{
-			
+	public void setJoin(@ModelAttribute MemberVO memberVO)throws Exception{
+		
 	}
 	
 	@PostMapping("join")
-	public String setJoin(@Valid MemberVO memberVO, BindingResult bindingResult, MultipartFile photo) throws Exception{
+	public String setJoin(@Valid MemberVO memberVO,BindingResult bindingResult, MultipartFile photo)throws Exception{
 		
-		boolean check = memberService.getMemberError(memberVO, bindingResult);
+		 boolean check = memberService.getMemberError(memberVO, bindingResult);
+		
 		
 		if(bindingResult.hasErrors() || check) {
-			return "member/join";
+			return "member/join"; 
 		}
 		
-		//회원가입 진행
+		int result = memberService.setJoin(memberVO);
 		
-		log.info("photo : {} --- size : {}", photo.getOriginalFilename(), photo.getSize());
+		
+		log.info("Photo : {} --- size : {}", photo.getOriginalFilename(), photo.getSize());
 		return "redirect:../";
 	}
+	
+
 }

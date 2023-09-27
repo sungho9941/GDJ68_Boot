@@ -10,8 +10,10 @@
 			<typeAlias type="com.winter.app.board.notice.NoticeVO" alias="NoticeVO"></typeAlias>
 			<typeAlias type="com.winter.app.board.notice.NoticeFileVO" alias="NoticeFileVO"></typeAlias>
 			<typeAlias type="com.winter.app.member.MemberVO" alias="MemberVO"></typeAlias>
+			<typeAlias type="com.winter.app.member.RoleVO" alias="RoleVO"></typeAlias>
 			
 			<typeAlias type="com.winter.app.commons.Pager" alias="Pager"></typeAlias>
 			
+			<typeAlias type="java.util.List" alias="List"/>
 		</typeAliases>
 	</configuration>
